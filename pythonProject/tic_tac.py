@@ -6,15 +6,15 @@ def is_win():
     x_check = False
     o_check = False
 
-    for ooss in list_board:
-        if ooss == 0:
+    for win in list_board:
+        if win == 0:
             is_tie = False
             x_extract.append(0)
             o_extract.append(0)
-        elif ooss == 1:
+        elif win == 1:
             x_extract.append(1)
             o_extract.append(0)
-        elif ooss == 2:
+        elif win == 2:
             x_extract.append(0)
             o_extract.append(1)
 
@@ -42,6 +42,11 @@ def is_win():
     else:
         return -1
 
+def Board():
+    print(mapping[list_board[0]], mapping[list_board[1]], mapping[list_board[2]])
+    print(mapping[list_board[3]], mapping[list_board[4]], mapping[list_board[5]])
+    print(mapping[list_board[6]], mapping[list_board[7]], mapping[list_board[8]])
+
 # Definitions and Vars
 win_condition = [[1,1,1,0,0,0,0,0,0], [1,0,0,1,0,0,1,0,0],
                  [1,0,0,0,1,0,0,0,1], [0,0,0,1,1,1,0,0,0],
@@ -58,14 +63,19 @@ game_ended = False
 player_x = 1
 player_o = 2
 current_player = player_x
-
 # Start of Game Code
-while not (game_ended):
+while not game_ended:
     # Position Check
     valid = False
-    while not (valid):
-        place_choice = int(input('Player ' + mapping[current_player] + ' choose a spot. (A # 1-9): '))
-        if list_board[place_choice - 1] == 0:
+    place_choice = -1
+    while not valid:
+        try:
+            place_choice = int(input('Player ' + mapping[current_player] + ' choose a spot. (A # 1-9): '))
+        except ValueError:
+            print("That's not a number dumb-dumb!")
+        if place_choice == -1:
+            pass
+        elif list_board[place_choice - 1] == 0:
             valid = True
         else:
             print('This position is taken!')
@@ -73,9 +83,7 @@ while not (game_ended):
     # Show board with new Pos
     list_board[place_choice - 1] = current_player
 
-    print(mapping[list_board[0]], mapping[list_board[1]], mapping[list_board[2]])
-    print(mapping[list_board[3]], mapping[list_board[4]], mapping[list_board[5]])
-    print(mapping[list_board[6]], mapping[list_board[7]], mapping[list_board[8]])
+    Board()
 
     # Check for win
     check_win = is_win()
